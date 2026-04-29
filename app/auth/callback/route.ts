@@ -32,6 +32,13 @@ export async function GET(request: Request) {
     const { error } = await supabase.auth.exchangeCodeForSession(code)
     
     if (!error) {
+      // Flash toast after redirect (client reads & clears)
+      cookieStore.set({
+        name: 'pp_flash_toast',
+        value: 'welcome',
+        path: '/',
+        maxAge: 60,
+      })
       return NextResponse.redirect(`${origin}${next}`)
     }
   }
