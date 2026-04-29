@@ -5,6 +5,8 @@ import type { User } from "@supabase/supabase-js";
 import toast from "react-hot-toast";
 
 import { useAuthState } from "../lib/auth/useAuthState";
+import { useAppDispatch } from "../store/hooks";
+import { clearAuth, setAuthUser, type AuthUser } from "../store/authSlice";
 
 type AuthContextValue = {
   isLoggedIn: boolean;
@@ -21,9 +23,28 @@ export function AuthProvider({
   children: React.ReactNode;
 }) {
   const { isLoggedIn, user } = useAuthState(initialIsLoggedIn);
+  const dispatch = useAppDispatch();
 
   const wasLoggedInRef = useRef<boolean>(initialIsLoggedIn);
   const welcomeShownRef = useRef(false);
+
+  useEffect(() => {
+    if (!isLoggedIn || !user) {
+      dispatch(clearAuth());
+      return;
+    }
+
+    const nextUser: AuthUser = {
+      id: user.id,
+      email: user.email ?? null,
+      createdAt: user.created_at ?? null,
+      lastSignInAt: user.last_sign_in_at ?? null,
+      appMetadata: (user.app_metadata as Record<string, unknown>) ?? null,
+      userMetadata: (user.user_metadata as Record<string, unknown>) ?? null,
+    };
+
+    dispatch(setAuthUser(nextUser));
+  }, [dispatch, isLoggedIn, user]);
 
   useEffect(() => {
     const wasLoggedIn = wasLoggedInRef.current;

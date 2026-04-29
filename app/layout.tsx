@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
 import { AuthProvider } from "./components/AuthProvider";
+import { ReduxProvider } from "./components/ReduxProvider";
 import { ToastProvider } from "./components/ToastProvider";
 import { getServerIsLoggedIn } from "./lib/auth/getServerIsLoggedIn";
 
@@ -34,10 +35,12 @@ export default async function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
-        <AuthProvider initialIsLoggedIn={initialIsLoggedIn}>
-          <ToastProvider />
-          {children}
-        </AuthProvider>
+        <ReduxProvider>
+          <AuthProvider initialIsLoggedIn={initialIsLoggedIn}>
+            <ToastProvider />
+            {children}
+          </AuthProvider>
+        </ReduxProvider>
       </body>
     </html>
   );

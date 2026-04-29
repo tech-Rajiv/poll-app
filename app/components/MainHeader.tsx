@@ -11,10 +11,12 @@ import sunMode from "../../public/icons/day-mode.png";
 import moonMode from "../../public/icons/night-mode.png";
 import profileIcon from "../../public/icons/profile-picture.png";
 import { LogOutIcon } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 export function MainHeader() {
   const { openModal } = useModal();
   const { isLoggedIn, user } = useAuth();
+  const router = useRouter();
 
   const [themeReady, setThemeReady] = useState(false);
   const [isDark, setIsDark] = useState(false);
@@ -124,7 +126,12 @@ export function MainHeader() {
       }}
     >
       <div className="flex items-center justify-between">
-        <div className="text-xl font-semibold">PiratePolls</div>
+        <div
+          className="text-xl font-semibold cursor-pointer"
+          onClick={() => router.push("/")}
+        >
+          PiratePolls
+        </div>
 
         <div className="flex items-center gap-3">
           <button
@@ -186,12 +193,13 @@ export function MainHeader() {
                       role="menuitem"
                       className="w-full flex items-center justify-between rounded-xl px-3 py-2 text-left hover:bg-black/5 dark:hover:bg-white/5 transition"
                       onClick={() => {
+                        router.push("/profile");
                         setProfileOpen(false);
-                        // placeholder: hook up to a /profile page later if needed
                       }}
                     >
-                      <span className="font-medium">Profile</span>
-                      <span className="text-xs text-gray-500">Soon</span>
+                      <span className="font-medium cursor-pointer hover:underline underline-offset-4">
+                        Profile
+                      </span>
                     </button>
 
                     <button
@@ -203,7 +211,9 @@ export function MainHeader() {
                         // placeholder: hook up to settings later if needed
                       }}
                     >
-                      <span className="font-medium">Settings</span>
+                      <span className="font-medium disabled:cursor-not-allowed">
+                        Settings
+                      </span>
                       <span className="text-xs text-gray-500">Soon</span>
                     </button>
                   </div>
