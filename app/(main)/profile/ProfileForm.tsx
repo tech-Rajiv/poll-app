@@ -109,7 +109,7 @@ export function ProfileForm({ initialProfile }: { initialProfile: Profile }) {
   }
 
   return (
-    <div className="mx-auto w-full">
+    <div className="mx-auto max-w-2xl">
       <div className="">
         <div className="flex items-center justify-between">
           <div>

@@ -1,4 +1,5 @@
-export default function Home() {
-  return <div className="">hey</div>;
-}
+import HomeLanding from "./home/HomeLanding";
 
+export default function Home() {
+  return <HomeLanding />;
+}
